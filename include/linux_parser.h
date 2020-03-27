@@ -52,6 +52,29 @@ std::string Ram(int pid);
 std::string Uid(int pid);
 std::string User(int pid);
 long int UpTime(int pid);
+
+namespace Internal{
+    template <typename T> T ParseFileForNthValueInLthLine(const std::string& filename, const int& lth, const int& nth){
+        T nthValue;
+        std::string dummy;
+        std::string line;
+        std::ifstream stream(filename);
+        if (stream.is_open()) {
+            int l {0};
+            while (std::getline(stream, line) && l <= lth){
+                if (l == lth){
+                    std::istringstream linestream(line);
+                    for(auto n=0; n < nth; n++){
+                        linestream >> dummy;
+                    }
+                    linestream >> nthValue;
+                    return nthValue;
+                } else l++;
+            }
+        }
+        return nthValue;
+    }
+};  // namespace Internal
 };  // namespace LinuxParser
 
 #endif
