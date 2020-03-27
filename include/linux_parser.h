@@ -74,6 +74,23 @@ namespace Internal{
         }
         return nthValue;
     }
+
+    template <typename T> T ParseFileForKey(const std::string& filename, const std::string& key){
+        std::string keyInCurrentLine;
+        T value;
+        std::string line;
+        std::ifstream filestream(filename);
+        if (filestream.is_open()){
+            while (std::getline(filestream, line)){
+                std::istringstream linestream(line);
+                if (linestream >> keyInCurrentLine >> value && keyInCurrentLine == key)
+                    return value;
+            }
+        }
+
+        return value;
+    }
+
 };  // namespace Internal
 };  // namespace LinuxParser
 
