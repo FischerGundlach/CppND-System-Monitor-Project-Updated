@@ -1,9 +1,9 @@
+#include <format.h>
 #include <unistd.h>
 #include <cstddef>
 #include <set>
 #include <string>
 #include <vector>
-#include <format.h>
 
 #include "linux_parser.h"
 #include "process.h"
@@ -15,28 +15,29 @@ using std::size_t;
 using std::string;
 using std::vector;
 
-System::System(){
-    operatingSystem_ = LinuxParser::OperatingSystem();
-    kernel_ = LinuxParser::Kernel();
+System::System() {
+  operatingSystem_ = LinuxParser::OperatingSystem();
+  kernel_ = LinuxParser::Kernel();
 }
 
 Processor& System::Cpu() { return cpu_; }
 
 vector<Process>& System::Processes() {
-    processes_.clear();
+  processes_.clear();
 
-    auto pids = LinuxParser::Pids();
-    for (const auto& pid : pids){
-        auto user = LinuxParser::User(pid);
-        auto command = LinuxParser::Command(pid);
-        auto cpu_utilization = LinuxParser::CpuUtilization(pid);
-        auto ram = LinuxParser::Ram(pid);
-        auto up_time = LinuxParser::UpTime(pid);
-        processes_.emplace_back(pid, user, command, cpu_utilization, ram, up_time);
-    }
-    std::sort(processes_.rbegin(), processes_.rend());
+  auto pids = LinuxParser::Pids();
+  for (const auto& pid : pids) {
+    auto user = LinuxParser::User(pid);
+    auto command = LinuxParser::Command(pid);
+    auto cpu_utilization = LinuxParser::CpuUtilization(pid);
+    auto ram = LinuxParser::Ram(pid);
+    auto up_time = LinuxParser::UpTime(pid);
+    processes_.emplace_back(pid, user, command, cpu_utilization, ram, up_time);
+  }
+  std::sort(processes_.rbegin(), processes_.rend());
 
-    return processes_; }
+  return processes_;
+}
 
 std::string System::Kernel() { return kernel_; }
 

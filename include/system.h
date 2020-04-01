@@ -11,7 +11,7 @@ class System {
  public:
   System();
   Processor& Cpu();
-  std::vector<Process>& Processes();  
+  std::vector<Process>& Processes();
   float MemoryUtilization();
   long UpTime();
   int TotalProcesses();
@@ -22,7 +22,6 @@ class System {
  private:
   Processor cpu_ = {};
   std::vector<Process> processes_ = {};
-
   std::string operatingSystem_;
   std::string kernel_;
 };
